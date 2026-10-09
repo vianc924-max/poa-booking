@@ -1,0 +1,8 @@
+# 本機開發用，複製成 .dev.vars 後填入（.dev.vars 不會上傳到 GitHub）
+LIFF_ID=
+LINE_LOGIN_CHANNEL_ID=
+LINE_CHANNEL_ACCESS_TOKEN=
+ADMIN_PASSWORD=change-me
+PAYMENT_INFO=玉山銀行(808) 帳號 xxxx-xxx-xxxxxx 戶名 xxx
+# 本機測試時可以不用 LINE 登入
+DEV_FAKE_LOGIN=true

@@ -1,0 +1,13 @@
+main { max-width: 900px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { color: var(--muted); font-weight: 600; }
+td .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+td button { padding: 4px 10px; font-size: 13px; }
+.stats { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0 12px; }
+textarea { min-height: 260px; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
+.clickable { cursor: pointer; }
+.clickable:hover { border-color: var(--brand); }
+.table-wrap { overflow-x: auto; }

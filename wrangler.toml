@@ -1,0 +1,25 @@
+name = "poa-booking"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*", "/admin", "/admin/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "poa-booking"
+# 第一次部署前執行 `npx wrangler d1 create poa-booking`，把印出的 database_id 貼到這裡
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[triggers]
+# 每 15 分鐘檢查逾期未繳費並遞補候補
+crons = ["*/15 * * * *"]
+
+[vars]
+# 截止時間過後才遞補上的候補，有幾小時可以繳費（最晚到活動開始前一小時）
+LATE_PAY_HOURS = "12"
+MAX_SEATS_PER_PERSON = "2"
