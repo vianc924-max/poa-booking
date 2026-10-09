@@ -1,0 +1,28 @@
+name = "poa-booking"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*", "/admin", "/admin/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "poa-booking"
+# Cloudflare D1 資料庫
+database_id = "19c2ed55-e37f-427f-bcc1-3e0a20a650d6"
+migrations_dir = "migrations"
+
+[triggers]
+# 每 15 分鐘檢查逾期未繳費並遞補候補
+crons = ["*/15 * * * *"]
+
+[vars]
+# LINE Login channel 與 LIFF（不是機密，可以公開）
+LINE_LOGIN_CHANNEL_ID = "2011953223"
+LIFF_ID = "2011953223-DzDj2hfh"
+# 截止時間過後才遞補上的候補，有幾小時可以繳費（最晚到活動開始前一小時）
+LATE_PAY_HOURS = "12"
+MAX_SEATS_PER_PERSON = "2"
