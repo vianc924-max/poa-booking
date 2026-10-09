@@ -49,33 +49,37 @@
 
 需要：Cloudflare 帳號（免費）、LINE Developers 帳號（用 LINE 登入即可）。
 
-### 1. 建立資料庫並部署
+### 1. 建立資料庫並部署（Cloudflare 網頁後台，不用打指令）
+
+1. Cloudflare 後台左側「Storage & Databases → D1」→ Create，名稱填 `poa-booking`，建好後複製 Database ID，貼到 `wrangler.toml` 的 `database_id`
+2. 左側「Workers & Pages」→ Create → Import a repository → 選 GitHub 的 `poa-booking`
+   - Deploy command 改成：`npx wrangler d1 migrations apply poa-booking --remote && npx wrangler deploy`
+3. 部署完成後，到這個 Worker 的「Settings → Variables and Secrets」新增兩個 **Secret**：
+   - `ADMIN_PASSWORD`：後台密碼
+   - `PAYMENT_INFO`：例如「玉山銀行(808) 帳號 xxxx 戶名 xxx」
+4. 網址在 Worker 的總覽頁，例如 `https://poa-booking.xxx.workers.dev`
+
+之後每次合併到 `main` 都會自動部署。銀行帳號等資料只放在 Cloudflare 的 Secret，不會出現在程式碼裡。
+
+<details><summary>用指令部署</summary>
 
 ```bash
 npm install
 npx wrangler login
 npx wrangler d1 create poa-booking      # 把印出的 database_id 貼到 wrangler.toml
 npm run db:migrate:remote
-npx wrangler secret put ADMIN_PASSWORD  # 後台密碼
-npx wrangler secret put PAYMENT_INFO    # 例如：玉山銀行(808) 帳號 xxxx 戶名 xxx
-npm run deploy                          # 會印出網址，例如 https://poa-booking.xxx.workers.dev
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put PAYMENT_INFO
+npm run deploy
 ```
-
-銀行帳號等資料只放在 Cloudflare 的 secret，不會出現在程式碼裡。
-
-也可以在 Cloudflare 後台的 Workers → 連結這個 GitHub repo，之後每次合併到 `main` 就自動部署。
+</details>
 
 ### 2. LINE Login 與 LIFF
 
 1. 到 [LINE Developers](https://developers.line.biz/console/) 建立 Provider（例如 POA）
 2. 新增 **LINE Login** channel
 3. 在 channel 的 LIFF 分頁新增 LIFF app：Size 選 Full，Endpoint URL 填上一步的網址，Scope 勾 `openid` 和 `profile`；「Add friend option」選 On，讓球友報名時順便加官方帳號好友
-4. 設定 secret：
-
-```bash
-npx wrangler secret put LINE_LOGIN_CHANNEL_ID   # LINE Login channel 的 Channel ID
-npx wrangler secret put LIFF_ID                 # LIFF ID，例如 1234567890-AbCdEfGh
-```
+4. 把 Channel ID 與 LIFF ID 填到 `wrangler.toml` 的 `[vars]`，並把 LIFF 的 Endpoint URL 改成 Worker 網址
 
 報名連結就是 `https://liff.line.me/<LIFF ID>`，貼到各個球敘群組的記事本。
 

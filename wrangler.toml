@@ -20,6 +20,9 @@ migrations_dir = "migrations"
 crons = ["*/15 * * * *"]
 
 [vars]
+# LINE Login channel 與 LIFF（不是機密，可以公開）
+LINE_LOGIN_CHANNEL_ID = "2011953223"
+LIFF_ID = "2011953223-DzDj2hfh"
 # 截止時間過後才遞補上的候補，有幾小時可以繳費（最晚到活動開始前一小時）
 LATE_PAY_HOURS = "12"
 MAX_SEATS_PER_PERSON = "2"
